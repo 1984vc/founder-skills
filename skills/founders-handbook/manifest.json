@@ -1,0 +1,28 @@
+{
+  "files": [
+    "SKILL.md",
+    "references/cap-table-101.md",
+    "references/cap-table-mcp.md",
+    "references/choosing-your-co-founder.md",
+    "references/cofounder-departure.md",
+    "references/eng/best-practices-seed.md",
+    "references/eng/open-source-playbook-posthog.md",
+    "references/eng/open-source-telemetry.md",
+    "references/founder-departure.md",
+    "references/how-to-pick-a-startup-idea.md",
+    "references/intro-to-safes.md",
+    "references/mergers-and-acquisitions/how-to-sell.md",
+    "references/mergers-and-acquisitions/legal-considerations.md",
+    "references/mergers-and-acquisitions/structuring.md",
+    "references/mergers-and-acquisitions/terms.md",
+    "references/minimizing-founder-dilution.md",
+    "references/pre-money-vs-post-money-conversion.md",
+    "references/raising-your-series-a.md",
+    "references/safe-side-letters.md",
+    "references/safe-vs-priced-round.md",
+    "references/selling-secondaries.md",
+    "references/series-a-deck.md",
+    "references/structured-and-downrounds.md",
+    "references/taxes/qsbs.md"
+  ]
+}
