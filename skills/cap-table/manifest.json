@@ -1,3 +1,8 @@
 {
-  "files": ["SKILL.md", "references/common-terms.md", "references/library-api.md"]
+  "files": [
+    "SKILL.md",
+    "references/common-terms.md",
+    "references/library-api.md",
+    "references/startup-finance-api.md"
+  ]
 }

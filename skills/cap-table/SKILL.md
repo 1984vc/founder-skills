@@ -1,15 +1,15 @@
 ---
 name: cap-table
-description: Model startup cap table ownership — SAFE conversions (cap, discount, post-money), priced rounds, option pool refreshes, and dilution. Use when calculating founder ownership percentages, converting SAFEs to equity, building pre-round or post-round cap tables, or estimating dilution from a Series A/B raise.
+description: Model startup cap table ownership — SAFE conversions (cap, discount, post-money), priced rounds, option pool refreshes, and dilution. Use when calculating founder ownership percentages, converting SAFEs to equity, building pre-round or post-round cap tables, estimating dilution from a Series A/B raise, or saving/sharing a cap table via startup-finance.1984.vc.
 license: MIT
 metadata:
   author: 1984 Ventures
-  version: "0.1.0"
+  version: "0.1.1"
 ---
 
 # Cap Table Calculator
 
-> Model startup cap tables: ownership percentages, SAFE conversions, priced rounds, and option pool refreshes.
+> Model startup cap tables: ownership percentages, SAFE conversions, priced rounds, and option pool refreshes. Save and share interactive worksheets at [startup-finance.1984.vc](https://startup-finance.1984.vc).
 
 ## Install
 
@@ -258,9 +258,67 @@ npx @1984vc/cap-table priced-round '{
 
 Invalid input (e.g., SAFE investment >= cap) exits with non-zero code and error to stderr. Always check the exit code.
 
+## Save & share worksheets
+
+The CLI calculates more ownership math, but it does **not** persist a link. Founders can **save and share** interactive cap tables on [startup-finance.1984.vc](https://startup-finance.1984.vc) — a browser worksheet plus a free HTTP/MCP API that returns a shareable URL.
+
+### When to use it
+
+Do this after you've modeled a scenario (or when the founder asks for a link / something they can edit with a co-founder or investor):
+
+| Situation | Action |
+|-----------|--------|
+| Founder wants a **shareable link** | Call the hosted API; return the worksheet URL |
+| Founder wants an **interactive what-if UI** | Same — worksheet opens at https://startup-finance.1984.vc |
+| SAFE-only / pre-priced round | Hosted tool: `estimate_pre_round` |
+| Priced round (Series A/B, pool, series) | Hosted tool: `calculate_cap_table` |
+| Resume a prior shared sheet | Hosted tool: `read_worksheet` / `update_worksheet` |
+
+Both `estimate_pre_round` and `calculate_cap_table` **automatically save** a worksheet and return a shareable link. Prefer giving that link whenever you hand off results the founder might reopen later.
+
+### How (high level)
+
+1. Map the same numbers you used for the CLI into the hosted tool payload (see field mapping in the reference).
+2. `POST` JSON-RPC to `https://startup-finance.1984.vc/mcp` — no auth, no session handshake.
+3. Extract the worksheet URL from the response and share it with the founder.
+4. URLs look like `https://startup-finance.1984.vc/#<worksheetId>-<editKey>`.
+
+Quick save (priced round sketch — full request shapes and SAFE types in the reference):
+
+```bash
+curl -s -X POST https://startup-finance.1984.vc/mcp \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "calculate_cap_table",
+      "arguments": {
+        "name": "Acme Series A",
+        "preMoneyValuation": 20000000,
+        "targetOptionsPool": 10,
+        "shareholders": [
+          { "name": "Alice (CEO)", "shares": 5000000 },
+          { "name": "Bob (CTO)", "shares": 4000000 }
+        ],
+        "seriesInvestment": [
+          { "name": "Lead VC", "investment": 5000000 }
+        ]
+      }
+    }
+  }'
+```
+
+**Gotchas vs the CLI:** hosted API uses **whole-number** percentages and discounts (`10` for 10%, `20` for 20% discount), not decimals (`0.10` / `0.20`). SAFE typing uses `type` (`post`, `pre`, `mfn`, `yc7p`, `ycmfn`) instead of `conversionType` + `sideLetters`.
+
+Full endpoints, field mapping from CLI → API, YC examples, `read_worksheet` / `update_worksheet`, and response handling: [`references/startup-finance-api.md`](references/startup-finance-api.md). Live machine-readable docs: [https://startup-finance.1984.vc/llms.txt](https://startup-finance.1984.vc/llms.txt).
+
 ## Advanced
 
 For programmatic TypeScript/JavaScript use: `npm install @1984vc/cap-table`. See `references/library-api.md` for the full API, math foundations, and type reference.
 
+- Worksheet UI / share: https://startup-finance.1984.vc
+- Worksheet API reference: [`references/startup-finance-api.md`](references/startup-finance-api.md)
 - GitHub: https://github.com/1984vc/cap-table
 - npm: https://www.npmjs.com/package/@1984vc/cap-table
