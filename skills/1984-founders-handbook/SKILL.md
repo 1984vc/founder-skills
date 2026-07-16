@@ -1,17 +1,73 @@
 ---
-name: founders-handbook
-description: Reference library of startup guides covering company formation, fundraising, equity mechanics, M&A, engineering, and taxes — written by the partners at 1984vc for early-stage founders.
+name: 1984-founders-handbook
+description: Practical startup guidance and cap-table modeling from 1984 Ventures. Use for company formation, fundraising, SAFEs, founder ownership and dilution calculations, priced rounds, option pools, co-founder dynamics, M&A, engineering, taxes, or saving and sharing an interactive cap table.
 license: CC-BY-ND-4.0
 metadata:
   author: 1984 Ventures
-  version: "1.0.0"
+  version: "2.0.0"
 ---
 
 # 1984vc Founders Handbook
 
-Practical guides for startup founders, written by the partners at [1984vc](https://1984.vc). All source documents are in `references/`.
+Practical guides and tools for startup founders, written by the partners at [1984vc](https://1984.vc). All supporting documents are in `references/`.
 
-Use this skill when a founder asks about fundraising mechanics, cap table math, co-founder dynamics, M&A exits, engineering practices, or tax strategy.
+Use this skill when a founder asks about fundraising mechanics, cap-table math, co-founder dynamics, M&A exits, engineering practices, or tax strategy. This is the repository's only skill; cap-table calculation is part of the handbook rather than a separate skill.
+
+## How to use this handbook
+
+1. **Explain the concept.** Read the relevant handbook reference and answer in plain language.
+2. **Model the numbers.** For a concrete ownership or dilution scenario, use the cap-table CLI described below instead of doing complex share math by hand.
+3. **Save and share when useful.** If the founder wants an editable worksheet or shareable link, use the hosted Startup Finance API.
+4. **State assumptions.** Distinguish pre-money from post-money valuation, issued from unused options, and pre-money from post-money SAFEs. Ask when a missing term can materially change the result.
+
+## Cap-table calculations
+
+Use [`@1984vc/cap-table`](https://www.npmjs.com/package/@1984vc/cap-table) for existing ownership, SAFE conversion, priced rounds, and option-pool refreshes. Version `0.2.1` or later is required for correct MFN adoption in priced rounds.
+
+| Founder needs | CLI command |
+|---|---|
+| Existing shareholders only | `existing` |
+| SAFEs but no priced round | `estimated-pre-round` |
+| Ownership immediately before a known priced round | `pre-round` |
+| Full post-round ownership and dilution | `priced-round` |
+
+Inputs can be an inline JSON argument, stdin, or a JSON file:
+
+```bash
+npx @1984vc/cap-table@^0.2.1 priced-round '{
+  "preMoneyValuation": 20000000,
+  "common": [
+    {"name": "Founder 1", "shares": 5000000},
+    {"name": "Founder 2", "shares": 5000000}
+  ],
+  "safes": [
+    {"name": "Seed SAFE", "investment": 1000000, "cap": 10000000, "discount": 0, "conversionType": "post"}
+  ],
+  "seriesInvestors": [
+    {"name": "Series A Lead", "investment": 5000000}
+  ],
+  "targetOptionsPct": 0.10
+}'
+```
+
+CLI percentages are decimals: `0.10` means 10%. Check the exit code and treat the JSON output as the calculation source of truth.
+
+For founder shorthand, YC's standard deal, complete schemas, outputs, and examples, read:
+
+- [Cap-table calculator workflow](references/cap-table-calculator.md)
+- [Founder shorthand and common terms](references/cap-table-common-terms.md)
+- [TypeScript library reference](references/cap-table-library-api.md)
+
+### Save and share a cap table
+
+When a founder wants a link they can reopen, edit, or send to a co-founder or investor, call `https://startup-finance.1984.vc/mcp`:
+
+- `estimate_pre_round` — SAFE-only worksheet
+- `calculate_cap_table` — priced-round worksheet
+- `read_worksheet` — resume a shared worksheet
+- `update_worksheet` — update it with its edit key
+
+Both calculation tools save the model and return a worksheet URL. Always return that URL to the founder. The hosted API uses whole-number percentages (`10` means 10%), unlike the CLI. See [Startup Finance API](references/startup-finance-api.md) for request schemas and examples.
 
 ---
 
@@ -20,8 +76,8 @@ Use this skill when a founder asks about fundraising mechanics, cap table math, 
 ### [Cap Table 101](references/cap-table-101.md)
 The mathematical foundations of cap table ownership. Covers how new shares dilute existing holders, price-per-share calculation, priced rounds vs SAFEs, and how to model your ownership through multiple financing rounds. Essential reading before any fundraise negotiation.
 
-### [Cap Table MCP](references/cap-table-mcp.md)
-Live cap table calculations via the MCP at `https://startup-finance.1984.vc/mcp`. Use when a founder wants to model a real scenario — handles SAFEs, priced rounds, and options pool top-ups. Includes a worked example with two co-founders, YC, and a seed investor.
+### [Cap Table Calculation and Sharing](references/cap-table-mcp.md)
+Decision guide for calculating locally with `@1984vc/cap-table` or saving an editable worksheet through `startup-finance.1984.vc`.
 
 ### [How to Pick a Startup Idea](references/how-to-pick-a-startup-idea.md)
 Strategy for finding startup ideas in the AI era. Argues against chasing large obvious markets; instead advocates for niche or offline industries where AI creates outsized leverage. Includes concrete portfolio examples.

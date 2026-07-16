@@ -1,23 +1,8 @@
----
-name: cap-table
-description: Model startup cap table ownership — SAFE conversions (cap, discount, post-money), priced rounds, option pool refreshes, and dilution. Use when calculating founder ownership percentages, converting SAFEs to equity, building pre-round or post-round cap tables, estimating dilution from a Series A/B raise, or saving/sharing a cap table via startup-finance.1984.vc.
-license: MIT
-metadata:
-  author: 1984 Ventures
-  version: "0.1.1"
----
-
 # Cap Table Calculator
 
 > Model startup cap tables: ownership percentages, SAFE conversions, priced rounds, and option pool refreshes. Save and share interactive worksheets at [startup-finance.1984.vc](https://startup-finance.1984.vc).
 
-## Install
-
-```bash
-npx skills add 1984vc/founder-skills
-```
-
-This installs the skill into your project so coding agents can use it. The CLI itself runs via `npx @1984vc/cap-table` — no separate install needed.
+This is the detailed calculator reference for the unified `1984-founders-handbook` skill. Run the CLI as `npx @1984vc/cap-table@^0.2.1`; version 0.2.1 or later correctly applies MFN side letters during priced-round conversion.
 
 ## Founder Shorthand
 
@@ -55,7 +40,7 @@ YC invests $500K via two post-money SAFEs — always model both, in this order, 
 | `discount` | `0` | 20% (0.20) common for capped seed SAFEs |
 | Founder shares | 10,000,000 total | Common starting point; only ratio matters |
 
-For the full glossary, typical terms by stage, and worked examples, see [`references/common-terms.md`](references/common-terms.md).
+For the full glossary, typical terms by stage, and worked examples, see [`cap-table-common-terms.md`](cap-table-common-terms.md).
 
 ## Commands
 
@@ -72,13 +57,13 @@ All commands accept a JSON object. You can pass it as an argument, pipe via stdi
 
 ```bash
 # As argument
-npx @1984vc/cap-table priced-round '{...}'
+npx @1984vc/cap-table@^0.2.1 priced-round '{...}'
 
 # Via stdin
-echo '{...}' | npx @1984vc/cap-table priced-round
+echo '{...}' | npx @1984vc/cap-table@^0.2.1 priced-round
 
 # From file
-npx @1984vc/cap-table priced-round ./input.json
+npx @1984vc/cap-table@^0.2.1 priced-round ./input.json
 ```
 
 ### Input Schema
@@ -216,7 +201,7 @@ All `ownershipPct` values are decimals: `0.45` = 45%. The solver iteratively con
 
 ```bash
 # Simple existing ownership
-npx @1984vc/cap-table existing '{
+npx @1984vc/cap-table@^0.2.1 existing '{
   "common": [
     {"name": "Alice", "shares": 6000000},
     {"name": "Bob", "shares": 4000000}
@@ -224,7 +209,7 @@ npx @1984vc/cap-table existing '{
 }'
 
 # Pre-round with SAFEs (no priced round)
-npx @1984vc/cap-table estimated-pre-round '{
+npx @1984vc/cap-table@^0.2.1 estimated-pre-round '{
   "common": [
     {"name": "Founder", "shares": 8000000},
     {"name": "Pool", "shares": 2000000, "commonType": "unusedOptions"}
@@ -236,7 +221,7 @@ npx @1984vc/cap-table estimated-pre-round '{
 }'
 
 # Full Series A
-npx @1984vc/cap-table priced-round '{
+npx @1984vc/cap-table@^0.2.1 priced-round '{
   "preMoneyValuation": 20000000,
   "common": [
     {"name": "CEO", "shares": 4000000},
@@ -312,13 +297,13 @@ curl -s -X POST https://startup-finance.1984.vc/mcp \
 
 **Gotchas vs the CLI:** hosted API uses **whole-number** percentages and discounts (`10` for 10%, `20` for 20% discount), not decimals (`0.10` / `0.20`). SAFE typing uses `type` (`post`, `pre`, `mfn`, `yc7p`, `ycmfn`) instead of `conversionType` + `sideLetters`.
 
-Full endpoints, field mapping from CLI → API, YC examples, `read_worksheet` / `update_worksheet`, and response handling: [`references/startup-finance-api.md`](references/startup-finance-api.md). Live machine-readable docs: [https://startup-finance.1984.vc/llms.txt](https://startup-finance.1984.vc/llms.txt).
+Full endpoints, field mapping from CLI → API, YC examples, `read_worksheet` / `update_worksheet`, and response handling: [`startup-finance-api.md`](startup-finance-api.md). Live machine-readable docs: [https://startup-finance.1984.vc/llms.txt](https://startup-finance.1984.vc/llms.txt).
 
 ## Advanced
 
-For programmatic TypeScript/JavaScript use: `npm install @1984vc/cap-table`. See `references/library-api.md` for the full API, math foundations, and type reference.
+For programmatic TypeScript/JavaScript use: `npm install @1984vc/cap-table`. See [`cap-table-library-api.md`](cap-table-library-api.md) for the full interface, math foundations, and type reference.
 
 - Worksheet UI / share: https://startup-finance.1984.vc
-- Worksheet API reference: [`references/startup-finance-api.md`](references/startup-finance-api.md)
+- Worksheet API reference: [`startup-finance-api.md`](startup-finance-api.md)
 - GitHub: https://github.com/1984vc/cap-table
 - npm: https://www.npmjs.com/package/@1984vc/cap-table

@@ -131,7 +131,7 @@ YC invests $500,000 via two post-money SAFEs. Always model both, in this order, 
 **CLI command:**
 
 ```bash
-npx @1984vc/cap-table priced-round '{
+npx @1984vc/cap-table@^0.2.1 priced-round '{
   "preMoneyValuation": 16000000,
   "common": [
     { "name": "Founder 1", "shares": 6000000 },
@@ -173,7 +173,7 @@ npx @1984vc/cap-table priced-round '{
 **CLI command (assuming single $1M post-money SAFE at $10M cap, 20% discount):**
 
 ```bash
-npx @1984vc/cap-table estimated-pre-round '{
+npx @1984vc/cap-table@^0.2.1 estimated-pre-round '{
   "common": [
     { "name": "Founder 1", "shares": 5000000 },
     { "name": "Founder 2", "shares": 5000000 }
@@ -211,7 +211,7 @@ npx @1984vc/cap-table estimated-pre-round '{
 **CLI command (assuming 50/50 split, no discount on seed SAFE):**
 
 ```bash
-npx @1984vc/cap-table priced-round '{
+npx @1984vc/cap-table@^0.2.1 priced-round '{
   "preMoneyValuation": 25000000,
   "common": [
     { "name": "Founder 1", "shares": 5000000 },

@@ -1,61 +1,47 @@
-# 1984vc Founder Skills
+# 1984 Founders Handbook
 
-A collection of [skills](https://www.npmjs.com/package/skills) from [1984vc](https://1984.vc) — practical guides and tools for startup founders covering fundraising mechanics, cap table math, co-founder dynamics, M&A, engineering, and taxes.
+One agent skill from [1984 Ventures](https://1984.vc) for startup founders: practical guidance on company formation, fundraising, cap tables, co-founder dynamics, M&A, engineering, and taxes.
 
 ## Install
 
+After the repository is renamed:
+
 ```bash
-npx skills add 1984vc/founder-skills
+npx skills add 1984vc/1984-founders-handbook
 ```
 
-## Skills
+The repository contains one skill: [`1984-founders-handbook`](skills/1984-founders-handbook/).
 
-| Skill | Description |
-|-------|-------------|
-| **[founders-handbook](skills/founders-handbook/)** | The [1984vc Founders Handbook](https://1984.vc/docs/founders-handbook) — 22 guides across company formation, fundraising, equity mechanics, M&A, engineering, and taxes. |
-| **[cap-table](skills/cap-table/)** | Model startup cap table ownership — SAFE conversions, priced rounds, option pool refreshes, and dilution. Powered by [`@1984vc/cap-table`](https://github.com/1984vc/cap-table). |
+## What it covers
 
-### founders-handbook
-
-A reference library of practical guides for startup founders. Example prompts:
-
-- *"How does a post-money SAFE convert at Series A?"*
-- *"What should I know before my co-founder leaves?"*
-- *"Walk me through the cap table impact of raising a Series A with a 10% option pool."*
-- *"What's the difference between a structured round and a downround?"*
-- *"How do I sell secondaries as a founder?"*
-
-Guides cover six topic areas:
-
-| Category | Guides |
+| Area | Guidance and tools |
 |---|---|
-| Company Formation | Cap table math, picking a startup idea, choosing / departing co-founders, minimizing dilution |
-| Raising Your Seed | SAFEs, pre/post-money conversion, SAFE vs priced rounds, side letters |
-| Raising Your A | Series A deck, cap table impact, selling secondaries, structured/down rounds |
-| Engineering | Seed-stage best practices, open source content marketing, telemetry |
-| Mergers & Acquisitions | How to sell, legal prep, deal structure, key terms |
-| Taxes | QSBS ($15M federal exclusion) |
+| Company formation | Startup ideas, choosing and separating from co-founders, founder equity |
+| Cap tables | Ownership math, SAFE conversion, priced rounds, dilution, option pools |
+| Raising seed and Series A | SAFEs, side letters, decks, term mechanics, secondaries, down rounds |
+| Engineering | Seed-stage practices, open source marketing, telemetry |
+| Mergers and acquisitions | Sale process, legal preparation, structures, negotiated terms |
+| Taxes | Qualified Small Business Stock (QSBS) |
 
-### cap-table
+## Cap-table modeling
 
-An interactive cap table calculator. Commands:
-
-| Command | Use case |
-|---------|----------|
-| `existing` | Just existing shareholders, no SAFEs or rounds |
-| `estimated-pre-round` | Have SAFEs but no priced round — estimates ownership |
-| `pre-round` | Know the round valuation — shows pre-money ownership |
-| `priced-round` | Full round with SAFE conversions, series investors, option pool |
+The skill uses [`@1984vc/cap-table`](https://www.npmjs.com/package/@1984vc/cap-table) for concrete ownership and dilution calculations:
 
 ```bash
-npx @1984vc/cap-table priced-round '{ "preMoneyValuation": 12000000, ... }'
+npx @1984vc/cap-table@^0.2.1 priced-round '{ "preMoneyValuation": 12000000, ... }'
 ```
 
-## About
+It can also save and share editable cap-table worksheets through [startup-finance.1984.vc](https://startup-finance.1984.vc).
 
-Written by the partners at [1984vc](https://1984.vc).
+## Example prompts
+
+- *“How does a post-money SAFE convert at Series A?”*
+- *“Model our cap table after a $5M Series A and give me a link I can share.”*
+- *“What should I know before my co-founder leaves?”*
+- *“What’s the difference between a structured round and a down round?”*
+- *“How do I sell secondaries as a founder?”*
 
 ## License
 
-- **founders-handbook**: [![License: CC BY-ND 4.0](https://licensebuttons.net/l/by-nd/4.0/88x31.png)](https://creativecommons.org/licenses/by-nd/4.0/) — Free to share with attribution, no derivatives.
-- **cap-table**: [MIT](https://opensource.org/licenses/MIT) — [1984 Ventures](https://1984.vc)
+- Handbook articles: [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/) — free to share with attribution, no derivatives.
+- Cap-table tooling and operational references: [MIT](https://opensource.org/licenses/MIT).

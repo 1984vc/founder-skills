@@ -2,6 +2,9 @@
   "files": [
     "SKILL.md",
     "references/cap-table-101.md",
+    "references/cap-table-calculator.md",
+    "references/cap-table-common-terms.md",
+    "references/cap-table-library-api.md",
     "references/cap-table-mcp.md",
     "references/choosing-your-co-founder.md",
     "references/cofounder-departure.md",
@@ -22,6 +25,7 @@
     "references/safe-vs-priced-round.md",
     "references/selling-secondaries.md",
     "references/series-a-deck.md",
+    "references/startup-finance-api.md",
     "references/structured-and-downrounds.md",
     "references/taxes/qsbs.md"
   ]
